@@ -5,10 +5,25 @@
     <title>Upload Image</title>
 </head>
 <body>
+    <h1>Upload your files here</h1>
+
+    <h2>Upload Images</h2>
     <input class = "file-upload-input"
            type = "file"
            onchange = "readURL(this)"
-           accept = "Image/*" >
+           accept = "Image/*">
+
+    <br>
+    <h2>Upload basic documents here (docx, PDF)</h2>
+    <input class = "file-upload-input"
+           type = "file"
+           onchange = "readURL(this)"
+           accept = "application/pdf, application/docx">
+
+    <br>
+    <h2>Start typing here</h2>
+    <input type = "text"
+           placeholder = "amongus">
 
 </body>
 </html>
