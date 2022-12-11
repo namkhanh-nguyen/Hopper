@@ -1,45 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <Title>Upload Site for Hopper</Title>
     <meta charset="UTF-8">
     <link rel = "stylesheet" href="../styles/styles.css">
-    <title>Upload Image</title>
+    <style>
+        body {
+            background: rgb(255, 255, 255);
+            }
+
+        [data-tab-info] {
+            display: none;
+            }
+
+
+
+        .tab-content {
+            font-size: 15px;
+            font-family: 'Times New Roman', Serif,serif;
+            font-weight: bold;
+            color: rgb(75, 75, 75);
+            }
+
+       .tabs {
+           font-size: 40px;
+            color: rgb(255, 255, 255);
+            display: flex;
+            margin: 0;
+            }
+
+        .tabs span {
+        background: rgb(0, 0, 255);
+        padding: 10px;
+        border: 1px solid rgb(255, 255, 255);
+        }
+
+        .tabs span:hover {
+            background: rgb(29, 185, 112);
+            cursor: pointer;
+            color: black;
+        }
+    </style>
 
 </head>
-<body>
-    <ul class ="topnavbar">
-        <li><a href=home.html>Home</a></li>
-        <li><a class="active" href=upload.html>Upload</a></li>
-        <li><a href=about.html>About</a></li>
-    </ul>
+
+
+        <body>
+
+        <ul class ="topnavbar">
+            <li><a href=home.html>Home</a></li>
+            <li><a class="active" href=upload.html>Upload</a></li>
+            <li><a href=about.html>About</a></li>
+        </ul>
+
+    <div class="tabs">
+        <span data-tab-value="#tab_1">Text only</span>
+        <span data-tab-value="#tab_2">Basic Documents</span>
+        <span data-tab-value="#tab_3">Tab-3</span>
+        </div>
     <h1>Upload your files here</h1>
 
-    <br>
-    <h2>Start typing here</h2>
-    <form>
-        <label>
-            <input type = "text"
-                   placeholder = "among us">
-        </label>
-    </form>
+    <div class="tab-content">
+        <div class="tabs__tab active" id="tab_1" data-tab-info>
+            <br>
+            <h2>Start typing here</h2>
+            <form>
+                <label>
+                    <input type = "text"
+                           placeholder = "among us">
+                </label>
+            </form>
 
-    <br>
-    <h2>Upload basic documents here (docx, PDF)</h2>
-    <form>
-    <input class = "file-upload-input"
-           type = "file"
-           accept = "application/pdf, application/docx">
-    </form>
+        </div>
+        <div class="tabs__tab" id="tab_2" data-tab-info>
+            <br>
+            <h2>Upload basic documents here (docx, PDF)</h2>
+            <form>
+                <input class = "file-upload-input"
+                       type = "file"
+                       accept = "application/pdf, application/docx">
+            </form>
 
-    <h2>Upload Images</h2>
-    <form>
-    <input class = "file-upload-input"
-           type = "file"
-           id = "image_input"
-           accept = "Image/*">
+        </div>
+        <div class="tabs__tab" id="tab_3" data-tab-info>
+            <h2>Upload Images</h2>
+            <form>
+                <input class = "file-upload-input"
+                       type = "file"
+                       id = "image_input"
+                       accept = "Image/*">
 
-    <div id = "display_image" alt="uploaded image"></div>
-    <script src="../scripts/uploadImage.js"></script>
-    </form>
+                <div id = "display_image" alt="uploaded image"></div>
+                <script src="../scripts/uploadImage.js"></script>
+            </form>
+
+        </div>
+        </div>
+    <script type="text/javascript">
+        const tabs = document.querySelectorAll('[data-tab-value]')
+        const tabInfos = document.querySelectorAll('[data-tab-info]')
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = document
+                    .querySelector(tab.dataset.tabValue);
+
+                tabInfos.forEach(tabInfo => {
+                    tabInfo.classList.remove('active')
+                })
+                target.classList.add('active');
+            })
+        })
+    </script>
+
+
+
+
+
 </body>
 </html>
