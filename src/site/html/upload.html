@@ -5,47 +5,6 @@
     <Title>Upload Site for Hopper</Title>
     <meta charset="UTF-8">
     <link rel = "stylesheet" href="../styles/styles.css">
-    <style>
-        body {
-            background: rgb(255, 255, 255);
-            }
-
-        [data-tab-info] {
-            display: none;
-            }
-
-
-
-        .tab-content {
-            font-size: 15px;
-            font-family: 'Times New Roman', Serif,serif;
-            font-weight: bold;
-            color: rgb(75, 75, 75);
-            }
-
-       .tabs {
-           font-size: 40px;
-            color: rgb(255, 255, 255);
-            display: flex;
-            margin: 0;
-            }
-
-        .active[data-tab-info] {
-        display: block;
-        }
-
-        .tabs span {
-        background: rgb(0, 0, 255);
-        padding: 10px;
-        border: 1px solid rgb(255, 255, 255);
-        }
-
-        .tabs span:hover {
-            background: rgb(29, 185, 112);
-            cursor: pointer;
-            color: black;
-        }
-    </style>
 
 </head>
 
@@ -75,7 +34,12 @@
                            placeholder = "among us">
                 </label>
             </form>
-
+            <form>
+                <label>
+                    <input type = "text" id = "test" value="kek"> // id changed due to test
+                    <input type="submit" onclick="generateKey()" value="Submit">
+                </label>
+            </form>
         </div>
         <div class="tabs__tab" id="tab_2" data-tab-info>
             <br>
@@ -96,31 +60,15 @@
                        accept = "Image/*">
 
                 <div id = "display_image" alt="uploaded image"></div>
-                <script src="../scripts/uploadImage.js"></script>
             </form>
 
         </div>
         </div>
-    <script type="text/javascript">
-        const tabs = document.querySelectorAll('[data-tab-value]')
-        const tabInfos = document.querySelectorAll('[data-tab-info]')
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document
-                    .querySelector(tab.dataset.tabValue);
-
-                tabInfos.forEach(tabInfo => {
-                    tabInfo.classList.remove('active')
-                })
-                target.classList.add('active');
-            })
-        })
-    </script>
-
-
-
-
+        <!-- scripts -->
+        <script src="../scripts/uploadImage.js"></script>
+        <script src="../scripts/subTab.js"></script>
+        <script src="../scripts/generateKey.js"></script>
 
 </body>
 </html>
