@@ -37,12 +37,14 @@
 
             </form>
             <form>
-                <label>
+                <label for="key">Create your Hopper Key!</label>
                     <input type = "text" id = "key" value="kek"> // id changed due to test
                     <input type="submit" onclick="generateKey()" value="Generate Key">
-                    <a href="textDatapage.html"> <input onclick="makeApage()" value="Make a Datapage"></a>
+                    <a href=textDatapage.html target="_blank" rel="noopener noreferrer">
+                        <button onclick="makeApage()">Make a Datapage</button>
+                    </a>
 
-                </label>
+
             </form>
         </div>
         <div class="tabs__tab" id="tab_2" data-tab-info>
