@@ -29,16 +29,19 @@
             <br>
             <h2>Start typing here</h2>
             <form>
-                <label>
+                <label for="UploadText"> Input your text here</label>
                     <input type = "text"
-                           placeholder = "among us">
-                </label>
+                           id = "UploadText"
+                           placeholder = "among us"
+                    size = "50">
+
             </form>
             <form>
                 <label>
-                    <input type = "text" id = "test" value="kek"> // id changed due to test
-                    <input type="submit" onclick="generateKey()" value="Submit">
-                    <input type="button">
+                    <input type = "text" id = "key" value="kek"> // id changed due to test
+                    <input type="submit" onclick="generateKey()" value="Generate Key">
+                    <a href="textDatapage.html"> <input onclick="makeApage()" value="Make a Datapage"></a>
+
                 </label>
             </form>
         </div>
@@ -71,6 +74,6 @@
         <script src="../scripts/uploadImage.js"></script>
         <script src="../scripts/subTab.js"></script>
         <script src="../scripts/generateKey.js"></script>
-
+        <script src="../scripts/CommitText.js"></script>
 </body>
 </html>
