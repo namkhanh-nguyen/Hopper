@@ -3,6 +3,7 @@ function makeApage() {
     localStorage.setItem("UploadText", data)
     var key = document.getElementById("key").innerHTML;
     localStorage.setItem("key", key)
+    window.location="textDatapage.html";
 }
 
 function buildApage(){

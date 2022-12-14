@@ -3,4 +3,5 @@ function generateKey() {
     var s = document.getElementById('key'); //testing the key generator
     s.value = s.value.toString()+ x.toString();
     document.getElementById('key').value = s.value;
+    console.log(s.value);
 }
