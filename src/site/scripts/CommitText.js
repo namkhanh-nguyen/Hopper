@@ -1,15 +1,23 @@
 function makeApage() {
-    var data = document.getElementById("UploadText").innerHTML;
-    localStorage.setItem("UploadText", data)
-    var key = document.getElementById("key").innerHTML;
-    localStorage.setItem("key", key)
-    window.location="textDatapage.html";
+
+    window.open("textDatapage.html");
+}
+
+function saveData(){
+    var data = document.getElementById("UploadText").value;
+    localStorage.setItem("data", data);
+    console.log(localStorage.getItem("data"));
+    var key = document.getElementById("key").value;
+    localStorage.setItem("key", key);
+    console.log(localStorage.getItem("key"));
 }
 
 function buildApage(){
-    document.getElementById("UploadText").innerHTML = localStorage.getItem("data");
+    var text = localStorage.getItem("data");
+    document.getElementById("textdisplaypage").value = text.value;
 }
 
 function grabAKey(){
-    document.getElementById("key").innerHTML = localStorage.getItem("key");
+    var key = localStorage.getItem("data");
+    document.getElementById("Hopperkeyarea").innerHTML = key.value;
 }
