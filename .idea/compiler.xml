@@ -8,5 +8,8 @@
         <outputRelativeToContentRoot value="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hopper" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
