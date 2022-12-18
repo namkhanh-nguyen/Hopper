@@ -29,16 +29,17 @@
             <br>
             <h2>Start typing here</h2>
 
-            <form name="TextInputForm" method="post" action="../TextDatapage">
-                <label>
+            <form name="TextInputForm" method="post" action="../java/TextDatapage.java">
+                <label for="textInput"> Please enter your Text:</label>
 
                     <input type = "text"
-                           name = "textInput"
+                           id = "textInput"
                            placeholder = "among us">
-                    <input type = "text" id = "test" value="kek"> // id changed due to test
+                <label for="test"> Please enter your Offset</label>
+                    <input type = "text" id = "test" value="kek">
                     <input type = "submit" value = "Submit to Database">
 
-                </label>
+
 
             </form>
 
