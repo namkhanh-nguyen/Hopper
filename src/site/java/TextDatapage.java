@@ -11,12 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/TextDatapage")
 
+public String textinput;
+public String KeyOffset;
+public String Key;
+
 public class TextDatapage implements HttpServlet,GenerateKey {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        String textinput = request.getParameter("textInput");
-        String KeyOffset = request.getParameter("test");
-        String Key = KeyCreate(KeyOffset);
+        textinput = request.getParameter("textInput");
+        KeyOffset = request.getParameter("test");
+        Key = KeyCreate(KeyOffset);
 
         PrintWriter writer = response.getWriter();
 
