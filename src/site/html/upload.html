@@ -28,17 +28,20 @@
         <div class="tabs__tab active" id="tab_1" data-tab-info>
             <br>
             <h2>Start typing here</h2>
-
-            <form name="TextInputForm" method="post" action="../java/TextDatapage.java">
-                <label for="textInput"> Please enter your Text:</label>
-
+            <form>
+                <label for="UploadText"> Input your text here</label>
                     <input type = "text"
-                           id = "textInput"
-                           placeholder = "among us">
-                <label for="test"> Please enter your Offset</label>
-                    <input type = "text" id = "test" value="kek">
-                    <input type = "submit" value = "Submit to Database">
+                           id = "UploadText"
+                           placeholder = "among us"
+                    size = "50">
 
+            </form>
+            <form>
+                <label for="key">Create your Hopper Key!</label>
+                    <input type = "text" id = "key" > <!-- id changed due to test-->
+                    <input type="button" onclick="generateKey()" value="Generate Key">
+                    <input type="button" onclick="saveData()" value="Save Hopper Data">
+                    <input type ="button" id="Pagemaker" value="Preview Your Hopper" onclick="makeApage()">
 
 
             </form>
@@ -52,6 +55,7 @@
                 <input class = "file-upload-input"
                        type = "file"
                        accept = "application/pdf, application/docx">
+
             </form>
 
         </div>
@@ -73,6 +77,6 @@
         <script src="../scripts/uploadImage.js"></script>
         <script src="../scripts/subTab.js"></script>
         <script src="../scripts/generateKey.js"></script>
-
+        <script src="../scripts/CommitText.js"></script>
 </body>
 </html>

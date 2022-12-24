@@ -6,6 +6,7 @@ tabs.forEach(tab => {
         const target = document
             .querySelector(tab.dataset.tabValue);
 
+        console.log("Tabchange");
         tabInfos.forEach(tabInfo => {
             tabInfo.classList.remove('active')
         })

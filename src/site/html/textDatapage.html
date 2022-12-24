@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel = "stylesheet" href="../styles/styles.css">
+    <title>Your Text-Hopper</title>
+</head>
+<body>
+<h4>Your Hopper Key is
+    <label>
+    <textarea id="Hopperkeyarea" onload="grabAKey()">00000000</textarea></label></h4>
+<input type ="button" id="Keybuilder" value="RevealtheKey" onclick="grabAKey()">
+<input type ="button" id="Builder" value="Reveal the Text" onclick="buildApage()">
+<h1 id="textdisplaypage" onload="buildApage()"></h1>
+<script src="../scripts/CommitText.js"></script>
+
+
+</body>
+</html>
