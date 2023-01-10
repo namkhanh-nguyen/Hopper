@@ -1,5 +1,8 @@
 package com.hopper;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,11 +10,13 @@ import javax.persistence.Id;
 @Entity
 public class Content implements Key{
         @Id
-        @GeneratedValue
+        //@GenericGenerator(name = "keygen", strategy = "com.hopper.Content.setHopperKey")
+        @GeneratedValue//(generator = "keygen")
+        //@Column(name = "keygen")
         private Long id;
         private String userInput;
-    private String KeyOffset;
-    private String Hopperkey;
+    private String keyOffset;
+    private String hopperKey;
 
     public void setId(Long id) {
         this.id = id;
@@ -32,25 +37,25 @@ public class Content implements Key{
     public String KeyCreate() {
         int value = (int)Math.round((Math.random() * 10000)+1);
         String Stringvalue = Integer.toString(value);
-        String FinalKey = this.KeyOffset + Stringvalue;
+        String FinalKey = this.keyOffset + Stringvalue;
         return FinalKey;
     }
 
     public String GetHopperkey(){
-        this.Hopperkey = KeyCreate();
-        return this.Hopperkey;
+        this.hopperKey = KeyCreate();
+        return this.hopperKey;
     }
 
-    public void setHopperkey(String Offset){
-        this.KeyOffset = Offset;
+    public void setHopperKey(String Offset){
+        this.keyOffset = Offset;
         String NewKey = this.KeyCreate();
-        this.Hopperkey = NewKey;
+        this.hopperKey = NewKey;
     }
 
     public String getKeyOffset(){
-        return KeyOffset;
+        return keyOffset;
     }
      public void setKeyOffset(String KeyOffset){
-        this.KeyOffset = KeyOffset;
+        this.keyOffset = KeyOffset;
      }
 }

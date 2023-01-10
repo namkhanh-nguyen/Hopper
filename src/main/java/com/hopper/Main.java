@@ -30,6 +30,11 @@ public class Main extends VerticalLayout{
     private Grid<Content> outputGrid = new Grid<>(Content.class);
     private Binder<Content> binder = new Binder<>(Content.class);
 
+    /**
+     *
+     * @param contentDatabase
+     */
+
     public Main(ContentDatabase contentDatabase){
         this.contentDatabase = contentDatabase;
 
@@ -56,10 +61,6 @@ public class Main extends VerticalLayout{
 
     }
 
-    /**
-     *
-     * @return
-     */
     public Component submitUserContent(){
 
         var layout = new VerticalLayout();
