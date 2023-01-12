@@ -43,7 +43,9 @@ public class Main extends VerticalLayout{
         retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         retrieveButton.addClickListener(e -> {
-            retrieveOutput();
+
+            retrieveOutput(KeyInput.getValue());
+            KeyInput.clear();
         });
 
         //Test button to wipe content after an x amount of time
@@ -56,7 +58,7 @@ public class Main extends VerticalLayout{
         });
 
         outputGrid.setColumns("id", "userInput");
-        add(submitUserContent(), outputGrid, retrieveButton, wipeButton);
+        add(submitUserContent(), retrieveButton, outputGrid, wipeButton);
 
 
     }
@@ -79,7 +81,7 @@ public class Main extends VerticalLayout{
                 contentDatabase.save(content);
 
                 userInput.clear();
-                HopperKey.setText("Your HopperKey is: " + content.getId());
+                HopperKey.setText("Your HopperKey is: " + content.getId() + ". Please note that your content will be automatically wiped after 5 minutes if you haven't used the Wipe button yourself");
 
             } catch (ValidationException e) {
                 //
@@ -90,9 +92,8 @@ public class Main extends VerticalLayout{
 
         return layout;
     }
-    private void retrieveOutput(){
-
-        outputGrid.setItems(contentDatabase.findAll());
+    private void retrieveOutput(String Id){
+        outputGrid.setItems(contentDatabase.findById(Id).stream());
     }
 
     private void wipeContentDatabase(long delay){
