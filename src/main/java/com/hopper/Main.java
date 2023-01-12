@@ -20,53 +20,67 @@ public class Main extends VerticalLayout{
     private ContentDatabase contentDatabase;
     private TextField userInput = new TextField("Input your content here");
 
-    private TextField KeyOffset = new TextField("Enter your Key Offset here");
-
     private TextField KeyInput = new TextField("Enter your given key here");
 
-    private Paragraph HopperKey = new Paragraph("Welcome to Hopper!");
+    private Paragraph HopperKey = new Paragraph("Welcome to Hopper! Type your content in the box above.");
+
+    private Paragraph wipeInstructions = new Paragraph("Type your key again in the box, then press Wipe to delete your content. Please note that your content will be automatically wiped after 5 minutes if you haven't used the Wipe button yourself");
 
     //outputGrid is where the user's uploaded text is returned
     private Grid<Content> outputGrid = new Grid<>(Content.class);
     private Binder<Content> binder = new Binder<>(Content.class);
 
+    /**
+     *
+     * @param contentDatabase
+     */
+
     public Main(ContentDatabase contentDatabase){
         this.contentDatabase = contentDatabase;
 
         binder.forField(userInput).bind(Content::getUserInput,Content::setUserInput);
-        binder.forField(KeyOffset).bind(Content::getKeyOffset,Content::setKeyOffset);
 
+        //Button to return submitted content
         var retrieveButton = new Button("Retrieve");
         retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         retrieveButton.addClickListener(e -> {
-            retrieveOutput();
+            retrieveOutput(KeyInput.getValue());
+
+            TimerTask timedWipe = new TimerTask() {
+                @Override
+                public void run() {
+                    contentDatabase.deleteById(KeyInput.getValue());
+                }
+            };
+            Timer timer = new Timer("Timer");
+            timer.schedule(timedWipe,300000L);
+
+            KeyInput.clear();
         });
 
+        //Test button to wipe content after an x amount of time
         var wipeButton = new Button("Wipe");
         retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         wipeButton.addClickListener(e -> {
-            wipeContentDatabase();
+            //delay = time in milliseconds, default is 10000 ms/ 10s
+            contentDatabase.deleteById(KeyInput.getValue());
         });
 
-        outputGrid.setColumns("id","userInput");
-        add(submitUserContent(), outputGrid, retrieveButton, wipeButton);
+        outputGrid.setColumns("id", "userInput");
+        add(submitUserContent(), retrieveButton, outputGrid, wipeButton);
 
 
     }
 
-    /**
-     *
-     * @return
-     */
     public Component submitUserContent(){
 
         var layout = new VerticalLayout();
         var uploadButton = new Button("Upload");
         uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        layout.add(userInput, KeyOffset, uploadButton, KeyInput, HopperKey);
+        layout.add(userInput, uploadButton, KeyInput, HopperKey, wipeInstructions);
 
         binder.bindInstanceFields(this);
 
@@ -78,8 +92,7 @@ public class Main extends VerticalLayout{
                 contentDatabase.save(content);
 
                 userInput.clear();
-                KeyOffset.clear();
-                HopperKey.setText("Your HopperKey is: " + content.GetHopperkey());
+                HopperKey.setText("Your HopperKey is: " + content.getId() + ". Type your key in the second box, then click Retrieve.");
 
             } catch (ValidationException e) {
                 //
@@ -90,24 +103,7 @@ public class Main extends VerticalLayout{
 
         return layout;
     }
-    private void retrieveOutput(){
-
-        outputGrid.setItems(contentDatabase.findAll());
-    }
-
-    private void wipeContentDatabase(){
-        TimerTask timedWipe = new TimerTask() {
-            @Override
-            public void run() {
-                contentDatabase.deleteAll();
-            }
-        };
-
-        Timer timer = new Timer("Timer");
-
-        long delay = 10000;
-        //delay = time in milliseconds, default is 10000 ms/ 10s
-
-        timer.schedule(timedWipe,delay);
+    private void retrieveOutput(String Id){
+        outputGrid.setItems(contentDatabase.findById(Id).stream());
     }
 }
