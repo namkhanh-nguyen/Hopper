@@ -20,8 +20,6 @@ public class Main extends VerticalLayout{
     private ContentDatabase contentDatabase;
     private TextField userInput = new TextField("Input your content here");
 
-    private TextField KeyOffset = new TextField("Enter your Key Offset here");
-
     private TextField KeyInput = new TextField("Enter your given key here");
 
     private Paragraph HopperKey = new Paragraph("Welcome to Hopper!");
@@ -39,7 +37,6 @@ public class Main extends VerticalLayout{
         this.contentDatabase = contentDatabase;
 
         binder.forField(userInput).bind(Content::getUserInput,Content::setUserInput);
-        binder.forField(KeyOffset).bind(Content::getKeyOffset,Content::setKeyOffset);
 
         //Button to return submitted content
         var retrieveButton = new Button("Retrieve");
@@ -70,7 +67,7 @@ public class Main extends VerticalLayout{
         var uploadButton = new Button("Upload");
         uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        layout.add(userInput, KeyOffset, uploadButton, KeyInput, HopperKey);
+        layout.add(userInput, uploadButton, KeyInput, HopperKey);
 
         binder.bindInstanceFields(this);
 
@@ -82,7 +79,6 @@ public class Main extends VerticalLayout{
                 contentDatabase.save(content);
 
                 userInput.clear();
-                KeyOffset.clear();
                 HopperKey.setText("Your HopperKey is: " + content.getId());
 
             } catch (ValidationException e) {
