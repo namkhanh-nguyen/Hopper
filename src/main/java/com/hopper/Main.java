@@ -83,7 +83,7 @@ public class Main extends VerticalLayout{
 
                 userInput.clear();
                 KeyOffset.clear();
-                HopperKey.setText("Your HopperKey is: " + content.getHopperKey());
+                HopperKey.setText("Your HopperKey is: " + content.getId());
 
             } catch (ValidationException e) {
                 //

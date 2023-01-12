@@ -14,7 +14,7 @@ public class Content implements Key{
     private String id;
     private String userInput;
     private String keyOffset;
-    private String hopperKey;
+    //private String hopperKey;
 
     public void setId(String id) {
         this.id = id;
@@ -39,13 +39,7 @@ public class Content implements Key{
         return finalKey;
     }
 
-    public String randomNumbers(){
-        int value = (int)Math.round((Math.random() * 10000)+1);
-        String stringValue = Integer.toString(value);
-        return stringValue;
-    }
-
-    public String getHopperKey(){
+    /*public String getHopperKey(){
         this.hopperKey = keyCreate();
         return this.hopperKey;
     }
@@ -53,7 +47,7 @@ public class Content implements Key{
     public void setHopperKey(String Offset){
         this.keyOffset = Offset;
         this.hopperKey = this.keyCreate();
-    }
+    }*/
 
     public String getKeyOffset(){
         return keyOffset;
