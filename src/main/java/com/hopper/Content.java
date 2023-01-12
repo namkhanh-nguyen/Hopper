@@ -2,27 +2,25 @@ package com.hopper;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Content implements Key{
-        @Id
-        //@GenericGenerator(name = "keygen", strategy = "com.hopper.Content.setHopperKey")
-        @GeneratedValue//(generator = "keygen")
-        //@Column(name = "keygen")
-        private Long id;
-        private String userInput;
+    @Id
+    @GenericGenerator(name = "KeyGen", strategy = "com.hopper.KeyGen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "KeyGen")
+    @Column(name = "Id")
+
+    private String id;
+    private String userInput;
     private String keyOffset;
     private String hopperKey;
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -34,28 +32,33 @@ public class Content implements Key{
         this.userInput = userInput;
     }
 
-    public String KeyCreate() {
+    public String keyCreate() {
         int value = (int)Math.round((Math.random() * 10000)+1);
-        String Stringvalue = Integer.toString(value);
-        String FinalKey = this.keyOffset + Stringvalue;
-        return FinalKey;
+        String stringValue = Integer.toString(value);
+        String finalKey = this.keyOffset + stringValue;
+        return finalKey;
     }
 
-    public String GetHopperkey(){
-        this.hopperKey = KeyCreate();
+    public String randomNumbers(){
+        int value = (int)Math.round((Math.random() * 10000)+1);
+        String stringValue = Integer.toString(value);
+        return stringValue;
+    }
+
+    public String getHopperKey(){
+        this.hopperKey = keyCreate();
         return this.hopperKey;
     }
 
     public void setHopperKey(String Offset){
         this.keyOffset = Offset;
-        String NewKey = this.KeyCreate();
-        this.hopperKey = NewKey;
+        this.hopperKey = this.keyCreate();
     }
 
     public String getKeyOffset(){
         return keyOffset;
     }
-     public void setKeyOffset(String KeyOffset){
+    public void setKeyOffset(String KeyOffset){
         this.keyOffset = KeyOffset;
      }
 }

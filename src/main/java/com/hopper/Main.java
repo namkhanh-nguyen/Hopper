@@ -41,6 +41,7 @@ public class Main extends VerticalLayout{
         binder.forField(userInput).bind(Content::getUserInput,Content::setUserInput);
         binder.forField(KeyOffset).bind(Content::getKeyOffset,Content::setKeyOffset);
 
+        //Button to return submitted content
         var retrieveButton = new Button("Retrieve");
         retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -48,14 +49,16 @@ public class Main extends VerticalLayout{
             retrieveOutput();
         });
 
+        //Test button to wipe content after an x amount of time
         var wipeButton = new Button("Wipe");
         retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         wipeButton.addClickListener(e -> {
-            wipeContentDatabase();
+            //delay = time in milliseconds, default is 10000 ms/ 10s
+            wipeContentDatabase(10000L);
         });
 
-        outputGrid.setColumns("id","userInput");
+        outputGrid.setColumns("id", "userInput");
         add(submitUserContent(), outputGrid, retrieveButton, wipeButton);
 
 
@@ -80,7 +83,7 @@ public class Main extends VerticalLayout{
 
                 userInput.clear();
                 KeyOffset.clear();
-                HopperKey.setText("Your HopperKey is: " + content.GetHopperkey());
+                HopperKey.setText("Your HopperKey is: " + content.getHopperKey());
 
             } catch (ValidationException e) {
                 //
@@ -96,7 +99,7 @@ public class Main extends VerticalLayout{
         outputGrid.setItems(contentDatabase.findAll());
     }
 
-    private void wipeContentDatabase(){
+    private void wipeContentDatabase(long delay){
         TimerTask timedWipe = new TimerTask() {
             @Override
             public void run() {
@@ -105,9 +108,6 @@ public class Main extends VerticalLayout{
         };
 
         Timer timer = new Timer("Timer");
-
-        long delay = 10000;
-        //delay = time in milliseconds, default is 10000 ms/ 10s
 
         timer.schedule(timedWipe,delay);
     }
