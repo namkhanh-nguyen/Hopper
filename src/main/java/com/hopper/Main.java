@@ -24,9 +24,9 @@ public class Main extends VerticalLayout{
     private final ContentDatabase contentDatabase;
     private final TextField userInput = new TextField("Input your content here");
     private final TextField keyInput = new TextField("Enter your given key here");
-    private final Paragraph hopperKey = new Paragraph("Welcome to Hopper! Type in the box above.");
-    private final Paragraph wipeInstructions = new Paragraph("Type your key in the box, then press Wipe to delete your content. Please note that your content will be automatically wiped after 3 minutes regardless");
-
+    private final Paragraph hopperKey = new Paragraph("Type in the box above, then press Upload.");
+    private final Paragraph wipeInstructions = new Paragraph("Type your key in the box, then press Retrieve to return your content or Wipe to delete it.");
+    private final Paragraph wipeNotice = new Paragraph("Please note that your content will be automatically wiped after 3 minutes regardless");
     private final Grid<Content> outputGrid = new Grid<>(Content.class);
     private final Binder<Content> binder = new Binder<>(Content.class);
 
@@ -49,16 +49,11 @@ public class Main extends VerticalLayout{
          */
 
         retrieveButton.addClickListener(e -> {
+            String tempSavedId = keyInput.getValue();
+
             retrieveOutput(keyInput.getValue());
 
-            TimerTask timedWipe = new TimerTask() {
-                @Override
-                public void run() {
-                    contentDatabase.deleteById(keyInput.getValue());
-                }
-            };
-            Timer timer = new Timer("Timer");
-            timer.schedule(timedWipe,180000L);
+            timedWipe(tempSavedId);
 
             keyInput.clear();
         });
@@ -92,7 +87,7 @@ public class Main extends VerticalLayout{
         var uploadButton = new Button("Upload");
         uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        layout.add(userInput, uploadButton, keyInput, hopperKey, wipeInstructions);
+        layout.add(userInput, uploadButton, keyInput, hopperKey, wipeInstructions, wipeNotice);
 
         binder.bindInstanceFields(this);
 
@@ -122,6 +117,22 @@ public class Main extends VerticalLayout{
      */
     private void retrieveOutput(String Id){
         outputGrid.setItems(contentDatabase.findById(Id).stream());
+    }
+
+    /**
+     * Method to add a 3-minute countdown before any submitted content is automatically deleted.
+     * the schedule() method uses Long, time in milliseconds, so e.g. 10000L is 10000 milliseconds, or 10 seconds
+     * @param Id is given when the user submits content above
+     */
+    private void timedWipe(String Id){
+        TimerTask timedWipe = new TimerTask() {
+            @Override
+            public void run() {
+                contentDatabase.deleteById(Id);
+            }
+        };
+        Timer timer = new Timer("Timer");
+        timer.schedule(timedWipe,180000L);
     }
 
 }

@@ -17,8 +17,8 @@ public class KeyGen implements IdentifierGenerator {
      * @return a random 3-digit number between 100 and 999
      */
     public String randomNumbers(){
-        int value = (int)Math.round((Math.random() * 1000)+1);
-        return Integer.toString(value);
+        Random random = new Random();
+        return String.format("%04d", random.nextInt(10000));
     }
 
     /**

@@ -13,7 +13,7 @@ public class Content{
 
     /**
      * GenericGenerator's strategy can be changed to refer to another class, as long as that class is a sequence generator
-     * GeneratedValue's GenerationType can be changed, e.g. GenerationType.SEQUENCE
+     * GeneratedValue's GenerationType can be changed to e.g. GenerationType.SEQUENCE
      */
     @Id
     @GenericGenerator(name = "KeyGen", strategy = "com.hopper.KeyGen")
