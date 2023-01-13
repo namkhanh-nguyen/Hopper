@@ -4,8 +4,17 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+/**
+ * Deposits the ID and submitted content in the database
+ */
+
 @Entity
 public class Content{
+
+    /**
+     * GenericGenerator's strategy can be changed to refer to another class, as long as that class is a sequence generator
+     * GeneratedValue's GenerationType can be changed to e.g. GenerationType.SEQUENCE
+     */
     @Id
     @GenericGenerator(name = "KeyGen", strategy = "com.hopper.KeyGen")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "KeyGen")
