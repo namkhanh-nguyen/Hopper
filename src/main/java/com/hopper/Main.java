@@ -10,9 +10,11 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.theme.Theme;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Stream;
 
 /**
  * Obviously the main method.
@@ -100,6 +102,7 @@ public class Main extends VerticalLayout{
                 userInput.clear();
                 hopperKey.setText("Your Hopper key is: " + content.getId());
 
+
             } catch (ValidationException e) {
                 //
             }
@@ -115,7 +118,13 @@ public class Main extends VerticalLayout{
      * @param Id is accessed in Main, can't be accessed here as it cannot retrieve the ID
      */
     private void retrieveOutput(String Id){
+        Stream C = contentDatabase.findById(Id).stream();
+        if(C.findAny().isPresent() == true){
         outputGrid.setItems(contentDatabase.findById(Id).stream());
+        hopperKey.setText("Thank you for using Hopper!");}
+        else{
+            hopperKey.setText("No such Key found!");
+        }
     }
 
     /**
