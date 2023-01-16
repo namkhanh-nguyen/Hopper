@@ -49,11 +49,8 @@ public class Main extends VerticalLayout{
          */
 
         retrieveButton.addClickListener(e -> {
-            String tempSavedId = keyInput.getValue();
 
             retrieveOutput(keyInput.getValue());
-
-            timedWipe(tempSavedId);
 
             keyInput.clear();
         });
@@ -97,6 +94,8 @@ public class Main extends VerticalLayout{
                 binder.writeBean(content);
                 binder.readBean(new Content());
                 contentDatabase.save(content);
+
+                timedWipe(content.getId());
 
                 userInput.clear();
                 hopperKey.setText("Your Hopper key is: " + content.getId());
