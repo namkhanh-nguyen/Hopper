@@ -31,8 +31,9 @@ public class KeyGen implements IdentifierGenerator {
         char one = (char)(random.nextInt(26) + 'a');
         char two = (char)(random.nextInt(26) + 'a');
         char three = (char)(random.nextInt(26) + 'a');
+        char four = (char)(random.nextInt(26) + 'a');
 
-        String prefix = String.valueOf(one) + String.valueOf(two) + String.valueOf(three);
+        String prefix = String.valueOf(one) + String.valueOf(two) + String.valueOf(three) + String.valueOf(four);
 
         return prefix;
     }
