@@ -12,6 +12,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.theme.Theme;
 
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
@@ -124,6 +125,7 @@ public class Main extends VerticalLayout{
         hopperKey.setText("Thank you for using Hopper!");}
         else{
             hopperKey.setText("No such Key found!");
+            outputGrid.setItems(Collections.emptyList());
         }
     }
 
