@@ -72,7 +72,7 @@ public class Main extends VerticalLayout{
          * Output grid is the table where the content is returned
          */
 
-        outputGrid.setColumns("id", "userInput");
+        outputGrid.setColumns("userInput");
         add(submitUserContent(), retrieveButton, outputGrid, wipeButton);
     }
 
