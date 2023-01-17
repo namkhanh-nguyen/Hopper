@@ -4,13 +4,15 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.theme.Theme;
 
 import java.util.Collections;
 import java.util.Timer;
@@ -25,10 +27,13 @@ import java.util.stream.Stream;
 public class Main extends VerticalLayout{
 
     private final ContentDatabase contentDatabase;
-    private final TextField userInput = new TextField("Input your content here");
-    private final TextField keyInput = new TextField("Enter your given key here");
-    private final Paragraph hopperKey = new Paragraph("Type in the box above, then press Upload.");
-    private final Paragraph wipeInstructions = new Paragraph("Type your key in the box, then press Retrieve to return your content or Wipe to delete it.");
+
+    private final H1 hopperHeader = new H1("Hopper");
+    private final TextArea userInput = new TextArea("Input your content here");
+    private final Paragraph textLimit = new Paragraph("(Limit: 255 characters)");
+    private final TextField keyInput = new TextField("Enter your key here");
+    private final Paragraph instructionText = new Paragraph("Type your key and press Retrieve.");
+    private final H2 hopperKey = new H2("keys1234");
     private final Paragraph wipeNotice = new Paragraph("Please note that your content will be automatically wiped after 3 minutes regardless");
     private final Grid<Content> outputGrid = new Grid<>(Content.class);
     private final Binder<Content> binder = new Binder<>(Content.class);
@@ -38,9 +43,14 @@ public class Main extends VerticalLayout{
      * @param contentDatabase is the initialised database
      */
     public Main(ContentDatabase contentDatabase){
+
         this.contentDatabase = contentDatabase;
 
         binder.forField(userInput).bind(Content::getUserInput,Content::setUserInput);
+
+        addClassNames("main-view");
+        userInput.addClassNames("input-field");
+
 
         //Button to return submitted content
         var retrieveButton = new Button("Retrieve");
@@ -63,7 +73,7 @@ public class Main extends VerticalLayout{
          */
 
         var wipeButton = new Button("Wipe");
-        retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        wipeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         wipeButton.addClickListener(e -> {
             contentDatabase.deleteById(keyInput.getValue());
@@ -74,7 +84,7 @@ public class Main extends VerticalLayout{
          */
 
         outputGrid.setColumns("userInput");
-        add(submitUserContent(), retrieveButton, outputGrid, wipeButton);
+        add(submitUserContent(), retrieveButton, outputGrid, wipeNotice, wipeButton);
     }
 
     /**
@@ -87,7 +97,7 @@ public class Main extends VerticalLayout{
         var uploadButton = new Button("Upload");
         uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        layout.add(userInput, uploadButton, keyInput, hopperKey, wipeInstructions, wipeNotice);
+        layout.add(hopperHeader, userInput, textLimit, uploadButton, keyInput, instructionText, hopperKey);
 
         binder.bindInstanceFields(this);
 
@@ -101,7 +111,8 @@ public class Main extends VerticalLayout{
                 timedWipe(content.getId());
 
                 userInput.clear();
-                hopperKey.setText("Your Hopper key is: " + content.getId());
+                instructionText.setText("Your Hopper key is: ");
+                hopperKey.setText(content.getId());
 
 
             } catch (ValidationException e) {
@@ -122,10 +133,9 @@ public class Main extends VerticalLayout{
         Stream C = contentDatabase.findById(Id).stream();
         if(C.findAny().isPresent() == true){
         outputGrid.setItems(contentDatabase.findById(Id).stream());
-        hopperKey.setText("Thank you for using Hopper!");}
+        instructionText.setText("Input your key again, then press 'Wipe' to delete your content");}
         else{
-            hopperKey.setText("No such Key found!");
-            outputGrid.setItems(Collections.emptyList());
+            instructionText.setText("No such key found!");
         }
     }
 
