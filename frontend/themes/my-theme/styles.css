@@ -1,6 +1,7 @@
-* {
 
-    font-size: 1rem;
+.main-view{
+    text-decoration-color: white;
+    font-size:1rem;
 }
 
 vaadin-button {
@@ -23,7 +24,12 @@ vaadin-button {
 .input-field {
     width:70%;
     height:200px;
-
 }
 
+.key-input{
+}
+
+.key-field{
+    background-color:#c5c6c7;
+}
 

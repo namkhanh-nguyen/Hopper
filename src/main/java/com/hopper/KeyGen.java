@@ -14,7 +14,7 @@ public class KeyGen implements IdentifierGenerator {
 
     /**
      * A method which generates the key's numeral suffix.
-     * @return a random 3-digit number between 100 and 999
+     * @return a random 4-digit number between 0 and 9999
      */
     public String randomNumbers(){
         Random random = new Random();
@@ -23,7 +23,7 @@ public class KeyGen implements IdentifierGenerator {
 
     /**
      * A method which generates the key's string prefix.
-     * @return a string consisting of 3 random alphabetical letters
+     * @return a string consisting of 4 random alphabetical letters
      */
     public String randomLetters(){
         Random random = new Random();

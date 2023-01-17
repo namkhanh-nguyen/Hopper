@@ -32,7 +32,7 @@ public class Main extends VerticalLayout{
     private final TextArea userInput = new TextArea("Input your content here");
     private final Paragraph textLimit = new Paragraph("(Limit: 255 characters)");
     private final TextField keyInput = new TextField("Enter your key here");
-    private final Paragraph instructionText = new Paragraph("Type your key and press Retrieve.");
+    private final Paragraph instructionText = new Paragraph("Click Upload, you will receive a unique key below");
     private final H2 hopperKey = new H2("keys1234");
     private final Paragraph wipeNotice = new Paragraph("Please note that your content will be automatically wiped after 3 minutes regardless");
     private final Grid<Content> outputGrid = new Grid<>(Content.class);
@@ -50,6 +50,8 @@ public class Main extends VerticalLayout{
 
         addClassNames("main-view");
         userInput.addClassNames("input-field");
+        keyInput.addClassNames("key-input");
+        hopperKey.addClassNames("key-field");
 
 
         //Button to return submitted content
@@ -111,7 +113,7 @@ public class Main extends VerticalLayout{
                 timedWipe(content.getId());
 
                 userInput.clear();
-                instructionText.setText("Your Hopper key is: ");
+                instructionText.setText("Type the key and press Retrieve");
                 hopperKey.setText(content.getId());
 
 
