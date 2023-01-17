@@ -26,3 +26,13 @@ The Solution
 
 (If he doesn't choose to delete the password immediately,
 it will be automatically wiped from the database after 3 minutes)
+
+User Stories that were solved in the Project:
+-[22]As Aaron, I want to make sure that if I cannot access my Manifesto it removes itself, so that nobody can steal my ideas or mess with my project.
+-[9]As Reggie, i want to share my username and password, so that my friend could log in with it.
+-[12] As Mike, i want to be able to quickly move my password between devices
+-[10]As Jill, i want to show my draft to my supervisor, so that it can be accepted
+-[12] As John, i want to give my list of things to review, so that my colleague could take care of it
+-[18]As Aaron, i want to give people access to my theories anonymously, so that people will believe it
+-[24]As Reggie, I want to share my character builds with my friends without uploading them to social media, so that only those I trust can see it.
+-[9] As Janet, i want to copy Reggie username and password, so i can play on her account
