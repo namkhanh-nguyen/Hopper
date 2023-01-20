@@ -79,6 +79,8 @@ public class Main extends VerticalLayout{
 
         wipeButton.addClickListener(e -> {
             contentDatabase.deleteById(keyInput.getValue());
+            instructionText.setText("Data connected to "+keyInput.getValue()+" has been deleted.");
+            resetAll();
         });
 
         /**
@@ -104,21 +106,31 @@ public class Main extends VerticalLayout{
         binder.bindInstanceFields(this);
 
         uploadButton.addClickListener(click -> {
-            try{
-                var content = new Content();
-                binder.writeBean(content);
-                binder.readBean(new Content());
-                contentDatabase.save(content);
+            if(userInput.isEmpty()) {
+                instructionText.setText("No text was not inputted!");
+                resetAll();
+            }
+            else if ((userInput.getValue()).length()>255) {
+                instructionText.setText("Text exceeded the character limit!");
+                resetAll();
+            }
+            else {
+                try{
+                    var content = new Content();
+                    binder.writeBean(content);
+                    binder.readBean(new Content());
+                    contentDatabase.save(content);
 
-                timedWipe(content.getId());
+                    timedWipe(content.getId());
 
-                userInput.clear();
-                instructionText.setText("Type the key and press Retrieve");
-                hopperKey.setText(content.getId());
+                    userInput.clear();
+                    instructionText.setText("Type the key and press Retrieve");
+                    hopperKey.setText(content.getId());
 
 
-            } catch (ValidationException e) {
-                //
+                } catch (ValidationException e) {
+                    //
+                }
             }
 
 
@@ -138,6 +150,7 @@ public class Main extends VerticalLayout{
         instructionText.setText("Input your key again, then press 'Wipe' to delete your content");}
         else{
             instructionText.setText("No such key found!");
+            resetAll();
         }
     }
 
@@ -157,4 +170,14 @@ public class Main extends VerticalLayout{
         timer.schedule(timedWipe,180000L);
     }
 
+    /**
+     * Method to reset the state of the input / output grid on call.
+     */
+
+    private void resetAll(){
+        userInput.clear();
+        outputGrid.setItems(Collections.emptyList());
+        hopperKey.setText("keys1234");
+        keyInput.clear();
+    }
 }
