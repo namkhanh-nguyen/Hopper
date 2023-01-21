@@ -4,15 +4,20 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Stream;
 
 /**
  * Obviously the main method.
@@ -22,10 +27,13 @@ import java.util.TimerTask;
 public class Main extends VerticalLayout{
 
     private final ContentDatabase contentDatabase;
-    private final TextField userInput = new TextField("Input your content here");
-    private final TextField keyInput = new TextField("Enter your given key here");
-    private final Paragraph hopperKey = new Paragraph("Type in the box above, then press Upload.");
-    private final Paragraph wipeInstructions = new Paragraph("Type your key in the box, then press Retrieve to return your content or Wipe to delete it.");
+
+    private final H1 hopperHeader = new H1("Hopper");
+    private final TextArea userInput = new TextArea("Input your content here");
+    private final Paragraph textLimit = new Paragraph("(Limit: 255 characters)");
+    private final TextField keyInput = new TextField("Enter your key here");
+    private final Paragraph instructionText = new Paragraph("Click Upload, you will receive a unique key below");
+    private final H2 hopperKey = new H2("keys1234");
     private final Paragraph wipeNotice = new Paragraph("Please note that your content will be automatically wiped after 3 minutes regardless");
     private final Grid<Content> outputGrid = new Grid<>(Content.class);
     private final Binder<Content> binder = new Binder<>(Content.class);
@@ -35,9 +43,16 @@ public class Main extends VerticalLayout{
      * @param contentDatabase is the initialised database
      */
     public Main(ContentDatabase contentDatabase){
+
         this.contentDatabase = contentDatabase;
 
         binder.forField(userInput).bind(Content::getUserInput,Content::setUserInput);
+
+        addClassNames("main-view");
+        userInput.addClassNames("input-field");
+        keyInput.addClassNames("key-input");
+        hopperKey.addClassNames("key-field");
+
 
         //Button to return submitted content
         var retrieveButton = new Button("Retrieve");
@@ -60,18 +75,20 @@ public class Main extends VerticalLayout{
          */
 
         var wipeButton = new Button("Wipe");
-        retrieveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        wipeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         wipeButton.addClickListener(e -> {
             contentDatabase.deleteById(keyInput.getValue());
+            instructionText.setText("Data connected to "+keyInput.getValue()+" has been deleted.");
+            resetAll();
         });
 
         /**
          * Output grid is the table where the content is returned
          */
 
-        outputGrid.setColumns("id", "userInput");
-        add(submitUserContent(), retrieveButton, outputGrid, wipeButton);
+        outputGrid.setColumns("userInput");
+        add(submitUserContent(), retrieveButton, outputGrid, wipeNotice, wipeButton);
     }
 
     /**
@@ -84,24 +101,36 @@ public class Main extends VerticalLayout{
         var uploadButton = new Button("Upload");
         uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        layout.add(userInput, uploadButton, keyInput, hopperKey, wipeInstructions, wipeNotice);
+        layout.add(hopperHeader, userInput, textLimit, uploadButton, keyInput, instructionText, hopperKey);
 
         binder.bindInstanceFields(this);
 
         uploadButton.addClickListener(click -> {
-            try{
-                var content = new Content();
-                binder.writeBean(content);
-                binder.readBean(new Content());
-                contentDatabase.save(content);
+            if(userInput.isEmpty()) {
+                instructionText.setText("No text was not inputted!");
+                resetAll();
+            }
+            else if ((userInput.getValue()).length()>255) {
+                instructionText.setText("Text exceeded the character limit!");
+                resetAll();
+            }
+            else {
+                try{
+                    var content = new Content();
+                    binder.writeBean(content);
+                    binder.readBean(new Content());
+                    contentDatabase.save(content);
 
-                timedWipe(content.getId());
+                    timedWipe(content.getId());
 
-                userInput.clear();
-                hopperKey.setText("Your Hopper key is: " + content.getId());
+                    userInput.clear();
+                    instructionText.setText("Type the key and press Retrieve");
+                    hopperKey.setText(content.getId());
 
-            } catch (ValidationException e) {
-                //
+
+                } catch (ValidationException e) {
+                    //
+                }
             }
 
 
@@ -115,7 +144,14 @@ public class Main extends VerticalLayout{
      * @param Id is accessed in Main, can't be accessed here as it cannot retrieve the ID
      */
     private void retrieveOutput(String Id){
+        Stream C = contentDatabase.findById(Id).stream();
+        if(C.findAny().isPresent() == true){
         outputGrid.setItems(contentDatabase.findById(Id).stream());
+        instructionText.setText("Input your key again, then press 'Wipe' to delete your content");}
+        else{
+            instructionText.setText("No such key found!");
+            resetAll();
+        }
     }
 
     /**
@@ -134,4 +170,14 @@ public class Main extends VerticalLayout{
         timer.schedule(timedWipe,180000L);
     }
 
+    /**
+     * Method to reset the state of the input / output grid on call.
+     */
+
+    private void resetAll(){
+        userInput.clear();
+        outputGrid.setItems(Collections.emptyList());
+        hopperKey.setText("keys1234");
+        keyInput.clear();
+    }
 }
