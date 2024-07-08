@@ -4,7 +4,7 @@ Hopper
 Contributors:
 - 
 - Lukas Oswald
-- Nam Khanh Nguyen (RickAndMhorti)
+- Nam Khanh Nguyen
 - Paulus Bintang Timur (PaulusDew)
 
 The Problem
